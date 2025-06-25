@@ -7,6 +7,6 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    WATCH_PATH = os.getenv("WATCH_PATH", "/app/trios_scan_folder")
+    WATCH_PATH = os.getenv("WATCH_PATH", str(basedir / "../SCAN"))
     PRINTER_NAME = os.getenv("PRINTER_NAME", "Label")
     SITE_URL = os.getenv("SITE_URL", "http://localhost:15000")
