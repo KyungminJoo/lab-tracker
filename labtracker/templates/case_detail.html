@@ -1,40 +1,40 @@
 {% extends "base.html" %}
 {% block title %}케이스 {{ case.id }}{% endblock %}
 {% block content %}
-<h1>케이스 #{{ case.id }}</h1>
-
-<!-- QR 미리보기 + 라벨 버튼 -->
-<div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
-  <img src="{{ url_for('api.case_qr', case_id=case.id) }}"
-       alt="QR" width="120" height="120" style="border:1px solid #ccc;">
-  <button id="print-label" class="btn btn-sm btn-primary">라벨 재출력</button>
+<div class="card">
+  <div class="card-body">
+    <h1 class="h4 mb-3">케이스 #{{ case.id }}</h1>
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <img src="{{ url_for('api.case_qr', case_id=case.id) }}"
+           alt="QR" width="120" height="120" class="border">
+      <button id="print-label" class="btn btn-sm btn-primary">라벨 재출력</button>
+    </div>
+    <div class="mb-3">
+      <span class="me-2">현재 상태:</span>
+      <span class="badge bg-info" id="current-status">{{ case.status_label }}</span>
+    </div>
+    <div class="d-flex align-items-center mb-4">
+      <label for="new-status" class="me-2 mb-0">새 상태:</label>
+      <select id="new-status" class="form-select form-select-sm w-auto me-2">
+        {% for s in status_choices %}
+          <option value="{{ s.code }}" {{ 'selected' if s.code==case.status else '' }}>
+            {{ s.label }}
+          </option>
+        {% endfor %}
+      </select>
+      <button id="change-status" class="btn btn-sm btn-secondary">변경</button>
+    </div>
+    <h3 class="h5">파일 목록</h3>
+    <div class="table-responsive">
+      <table class="table table-sm" id="file-table">
+        <thead>
+          <tr><th>#</th><th>파일명</th><th>업로드 시각</th><th>다운로드</th></tr>
+        </thead>
+        <tbody><!-- JS 가 채움 --></tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
-<!-- 상태 변경 -->
-<p>현재 상태:
-  <span class="badge bg-info" id="current-status">{{ case.status_label }}</span>
-</p>
-
-<label for="new-status">새 상태:</label>
-<select id="new-status" class="form-select form-select-sm" style="display:inline;width:auto;">
-  {% for s in status_choices %}
-    <option value="{{ s.code }}" {{ 'selected' if s.code==case.status else '' }}>
-      {{ s.label }}
-    </option>
-  {% endfor %}
-</select>
-<button id="change-status" class="btn btn-sm btn-secondary">변경</button>
-
-<hr>
-
-<!-- 스캔 파일 리스트 -->
-<h3>파일 목록</h3>
-<table class="table table-sm" id="file-table">
-  <thead>
-    <tr><th>#</th><th>파일명</th><th>업로드 시각</th><th>다운로드</th></tr>
-  </thead>
-  <tbody><!-- JS 가 채움 --></tbody>
-</table>
 
 <script src="{{ url_for('static', filename='js/case_detail.js') }}"></script>
 <script>
