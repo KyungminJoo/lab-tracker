@@ -8,7 +8,7 @@ Case-related API endpoints.
 """
 
 from datetime import datetime
-from flask import request, jsonify
+from flask import request, jsonify, send_from_directory
 
 from . import bp
 from ..models import Case, ScanFile, db
@@ -109,3 +109,14 @@ def upload_file(case_id):
     db.session.add(sf)
     db.session.commit()
     return jsonify(sf.to_dict()), 201
+
+
+# ---------------------------------------------------------------------------
+#  파일 다운로드
+# ---------------------------------------------------------------------------
+@bp.route('/api/files/<int:file_id>/download')
+def download_file(file_id: int):
+    """저장된 스캔 파일을 클라이언트로 전송한다."""
+    sf = ScanFile.query.get_or_404(file_id)
+    file_path = Path('/app/data/uploads') / sf.filename
+    return send_from_directory(file_path.parent, file_path.name, as_attachment=True)
