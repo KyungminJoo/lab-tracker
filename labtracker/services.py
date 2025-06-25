@@ -1,4 +1,5 @@
 import subprocess, tempfile
+import os
 import qrcode
 from .models import db, Case
 from flask import current_app as app
@@ -20,3 +21,8 @@ def save_case_and_print_label(case_name: str, stl_path: str):
         ["lp", "-d", app.config["PRINTER_NAME"], "-o", "fit-to-page", tmp.name],
         check=False,
     )
+
+    try:
+        os.remove(tmp.name)
+    except OSError:
+        app.logger.warning("Could not remove temporary QR code file: %s", tmp.name)
