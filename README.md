@@ -28,6 +28,19 @@ docker compose up --build
 
 환경 변수(스캔 폴더 위치, 프린터 이름 등)는 `docker-compose.yml`에서 수정할 수 있습니다.
 
+## DB 초기화 및 마이그레이션
+
+DB 파일은 `data/labtracker.db`에 생성됩니다. 스키마가 변경된 경우 기존 파일을 삭제하거나 아래 스크립트를 실행해 갱신할 수 있습니다.
+
+```bash
+# 새로 생성
+rm -f data/labtracker.db
+python -m labtracker.wsgi  # 최초 실행 시 테이블 자동 생성
+
+# 또는 마이그레이션 스크립트 사용
+python scripts/migrate_unique_case_name.py
+```
+
 ## 주요 엔드포인트
 
 - `GET /api/cases` – 케이스 목록 조회
