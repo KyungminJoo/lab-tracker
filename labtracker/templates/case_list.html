@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>케이스 관리</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: .5rem; text-align: left; }
+    th { background: #f5f5f5; }
+    button { padding: .5rem 1rem; margin-left: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>케이스 상태 일괄 변경</h1>
+
+  <label>새 상태:
+    <select id="statusSelect">
+      <option value="스캔완료">스캔완료</option>
+      <option value="디자인중">디자인중</option>
+      <option value="밀링완료">밀링완료</option>
+      <option value="완료">완료</option>
+    </select>
+  </label>
+  <button id="bulkUpdateBtn">변경</button>
+
+  <table id="caseTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="checkAll"></th>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Updated At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+const API_BASE = '/api';
+
+async function fetchCases() {
+  const res = await fetch(`${API_BASE}/cases`);    // GET /api/cases 필요
+  const data = await res.json();
+  const tbody = document.querySelector('#caseTable tbody');
+  tbody.innerHTML = '';
+  data.forEach(c => {
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td><input type="checkbox" value="${c.id}"></td>
+        <td>${c.id}</td>
+        <td>${c.status}</td>
+        <td>${c.updated_at ?? ''}</td>
+      </tr>
+    `);
+  });
+}
+
+document.getElementById('checkAll').addEventListener('change', e => {
+  document
+    .querySelectorAll('#caseTable tbody input[type=checkbox]')
+    .forEach(cb => (cb.checked = e.target.checked));
+});
+
+document.getElementById('bulkUpdateBtn').addEventListener('click', async () => {
+  const ids = Array.from(
+      document.querySelectorAll('#caseTable tbody input:checked')
+    ).map(cb => Number(cb.value));
+  if (!ids.length) { alert('선택된 케이스가 없습니다'); return; }
+
+  const newStatus = document.getElementById('statusSelect').value;
+  const res = await fetch(`${API_BASE}/cases/bulk`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ids, new_status: newStatus })
+  });
+  const result = await res.json();
+  alert(`변경 성공: ${result.updated}개`);
+  fetchCases();                // 테이블 갱신
+});
+
+fetchCases();
+</script>
+</body>
+</html>

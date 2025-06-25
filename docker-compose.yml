@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  lab-tracker:
+    build: .
+    container_name: lab-tracker
+    restart: unless-stopped
+
+    ports:
+      - "15000:5000"
+
+    environment:
+      - FLASK_ENV=production
+      - WATCH_PATH=/app/trios_scan_folder
+      - PRINTER_NAME=Label
+      - SITE_URL=https://labtracker.local
+
+    # ⬇︎ command 블록은 딱 한 번!
+    command: >
+      gunicorn --workers 2 --timeout 120 -b 0.0.0.0:5000 labtracker.wsgi:app
+
+    # 📌  호스트 ↔ 컨테이너 디렉터리 매핑
+    volumes:
+      # 1) 스캔 폴더 (읽기 전용)
+      - /volume1/trios_scan_folder:/app/trios_scan_folder:ro
+
+      # 2) 코드·템플릿 실시간 반영
+      - /volume1/docker/lab-tracker/labtracker:/app/labtracker:rw
+
+      # 3) DB 파일
+      - lab_tracker_data:/app/data
+
+volumes:
+  lab_tracker_data:
