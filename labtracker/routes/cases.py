@@ -81,6 +81,23 @@ def get_case(case_id):
     ), 200
 
 # ─────────────────────────────────────────────────────────────
+#  상태 PATCH /api/cases/<id>/status
+# ─────────────────────────────────────────────────────────────
+@bp.route("/api/cases/<int:case_id>/status", methods=["PATCH"])
+def update_status(case_id: int):
+    """단일 케이스의 상태를 변경한다."""
+    payload = request.get_json() or {}
+    new_status = payload.get("status")
+    if new_status not in VALID_STATUSES:
+        return jsonify({"msg": "invalid status"}), 400
+
+    case = Case.query.get_or_404(case_id)
+    case.status = new_status
+    case.updated_at = datetime.utcnow()
+    db.session.commit()
+    return jsonify({"status": case.status}), 200
+
+# ─────────────────────────────────────────────────────────────
 #  단일 케이스의 파일 목록  GET /api/cases/<id>/files
 # ─────────────────────────────────────────────────────────────
 @bp.route("/api/cases/<int:case_id>/files")
