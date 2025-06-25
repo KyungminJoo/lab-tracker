@@ -5,7 +5,7 @@
 
 <!-- QR 미리보기 + 라벨 버튼 -->
 <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
-  <img src="{{ url_for('routes.case_qr', case_id=case.id) }}"
+  <img src="{{ url_for('api.case_qr', case_id=case.id) }}"
        alt="QR" width="120" height="120" style="border:1px solid #ccc;">
   <button id="print-label" class="btn btn-sm btn-primary">라벨 재출력</button>
 </div>
