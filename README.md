@@ -11,7 +11,7 @@
 
 1. 의존성 설치
    ```bash
-   pip install -r requirements.txt
+   ./install.sh  # 또는 `pip install -r requirements.txt`
    ```
 2. 서버 실행
    ```bash
