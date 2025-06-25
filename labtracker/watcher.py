@@ -56,11 +56,19 @@ def start_watcher(app):
             obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
             obs.start()
             app.logger.info("✅ inotify Observer started")
-        except Exception:
-            obs = PollingObserver(timeout=1.0)    # Fallback
-            obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
-            obs.start()
-            app.logger.warning("⏱  Fallback to PollingObserver")
+        except Exception as exc:
+            if PollingObserver is None:
+                app.logger.error("❌ PollingObserver 사용 불가 – 감시 기능 비활성화")
+                app.logger.exception(exc)
+                return
+            try:
+                obs = PollingObserver(timeout=1.0)    # Fallback
+                obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
+                obs.start()
+                app.logger.warning("⏱  Fallback to PollingObserver")
+            except Exception:
+                app.logger.exception("❌ PollingObserver 시작 실패")
+                raise
 
         obs.join()
 
