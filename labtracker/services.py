@@ -17,12 +17,19 @@ def save_case_and_print_label(case_name: str, stl_path: str):
     tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
     qrcode.make(qr_data).save(tmp.name)
 
-    subprocess.run(
-        ["lp", "-d", app.config["PRINTER_NAME"], "-o", "fit-to-page", tmp.name],
-        check=False,
-    )
+    printed = True
+    try:
+        subprocess.run(
+            ["lp", "-d", app.config["PRINTER_NAME"], "-o", "fit-to-page", tmp.name],
+            check=False,
+        )
+    except FileNotFoundError:
+        printed = False
+        app.logger.warning("'lp' 명령을 찾을 수 없습니다. 라벨이 인쇄되지 않았습니다.")
 
     try:
         os.remove(tmp.name)
     except OSError:
         app.logger.warning("Could not remove temporary QR code file: %s", tmp.name)
+
+    return printed
