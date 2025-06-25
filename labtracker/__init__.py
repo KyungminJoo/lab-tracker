@@ -1,4 +1,4 @@
-from .routes.cases import bp as cases_bp
+from .routes.cases import bp as api_bp  # API 블루프린트 정의 및 엔드포인트 로드
 from flask import Flask
 from .config import Config
 from .models import db, init_db
@@ -14,9 +14,9 @@ def create_app() -> Flask:
         init_db(app)
 
     # -------------------- 블루프린트 ---------------------
-    app.register_blueprint(cases_bp)                      # 케이스 목록·상세
-    from .routes import bp as api_bp                      # ← 정의만 가져옴
-    # ← 중복 제거: api_bp 등록 삭제
+    app.register_blueprint(api_bp)                       # 케이스 API(목록·상세)
+    from .routes import bp as api_bp                      # 동일 객체 로드
+    # 이미 위에서 등록했으므로 여기서는 모듈 초기화 목적만
     from .routes.web import ui_bp
     app.register_blueprint(ui_bp)                         # “/” 루트 담당
 
