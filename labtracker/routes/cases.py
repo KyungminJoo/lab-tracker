@@ -8,7 +8,9 @@ Case-related API endpoints.
 """
 
 from datetime import datetime
-from flask import request, jsonify, send_from_directory
+from flask import request, jsonify, send_from_directory, send_file
+from io import BytesIO
+import qrcode
 
 from . import bp
 from ..models import Case, ScanFile, db
@@ -96,6 +98,21 @@ def print_label(case_id):
     Case.query.get_or_404(case_id)
     current_app.logger.info("▶ 라벨 프린트 요청: case %s", case_id)
     return {"ok": True}
+
+# ---------------------------------------------------------------------------
+#  QR 이미지 생성
+# ---------------------------------------------------------------------------
+@bp.route('/api/cases/<int:case_id>/qr')
+def case_qr(case_id):
+    """해당 케이스 상세 페이지로 이동하는 QR 이미지를 PNG로 반환."""
+    case = Case.query.get_or_404(case_id)
+    qr_data = f"{current_app.config['SITE_URL']}/cases/{case.id}"
+
+    buf = BytesIO()
+    qrcode.make(qr_data).save(buf, format="PNG")
+    buf.seek(0)
+
+    return send_file(buf, mimetype='image/png')
 
 # routes/cases.py 맨 아래에 붙이기
 from pathlib import Path
