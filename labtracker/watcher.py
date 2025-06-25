@@ -48,6 +48,10 @@ class ScanHandler(FileSystemEventHandler):
 
 # ── 2. 시작 함수 ───────────────────────────────────────────────
 def start_watcher(app):
+    if os.getenv("START_WATCHER", "1") != "1":
+        app.logger.info("START_WATCHER=0 → 워처 비활성화")
+        return
+
     watch_path = pathlib.Path(app.config["WATCH_PATH"])
 
     if not watch_path.exists():

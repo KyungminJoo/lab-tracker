@@ -14,6 +14,7 @@ services:
       - WATCH_PATH=/app/SCAN
       - PRINTER_NAME=Label
       - SITE_URL=https://labtracker.local
+      - START_WATCHER=1
 
     # ⬇︎ command 블록은 딱 한 번!
     command: >

@@ -70,3 +70,17 @@ lab-tracker/
 위와 같이 SCAN 폴더에 파일이 추가되면 워처가 자동으로 케이스를 생성하고
 라벨을 출력하게 됩니다.
 
+## 워처 실행 제어
+
+`START_WATCHER` 환경 변수를 `"1"`(기본값)로 두면 `start_watcher()`가 실행되어
+스캔 폴더를 감시합니다. 여러 워커를 사용하는 경우에는 중복 실행을 막기 위해
+한 워커에서만 `START_WATCHER=1`을 지정하고 나머지는 `0`으로 설정합니다. 예를
+들어 `docker-compose.yml`에서 첫 번째 컨테이너만 다음과 같이 지정합니다.
+
+```yaml
+environment:
+  - START_WATCHER=1
+```
+
+다른 워커 컨테이너에서는 `START_WATCHER=0`으로 설정하면 됩니다.
+
