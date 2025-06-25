@@ -17,17 +17,10 @@ class Case(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow,
                            onupdate=datetime.utcnow, nullable=False)
 
-    STATUS_LABELS = {
-        "SCANNED": "스캔→디자인",
-        "DESIGNING": "디자인→밀링",
-        "MILLING": "밀링→신터링&글레이징",
-        "DONE": "기공완료",
-    }
-
     @property
     def status_label(self) -> str:
-        """상태 코드에 대응하는 한글 라벨을 반환한다."""
-        return self.STATUS_LABELS.get(self.status, self.status)
+        """현재 상태 문자열을 화살표 기호로 변환하여 반환한다."""
+        return self.status.replace("->", "→")
 
     # files 역참조: case.files
 

@@ -15,8 +15,6 @@ def case_detail(case_id):
         for s in sorted(VALID_STATUSES)
     ]
 
-    case.status_label = case.status.replace("->", "→")
-
     return render_template(
         "case_detail.html",
         case=case,

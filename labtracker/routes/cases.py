@@ -61,7 +61,7 @@ def list_cases():
         {
             "id": r.id,
             "status": r.status,
-            "status_label": Case.STATUS_LABELS.get(r.status, r.status),
+            "status_label": r.status.replace("->", "→"),
             "updated_at": r.updated_at.isoformat() if r.updated_at else None,
         }
         for r in rows
