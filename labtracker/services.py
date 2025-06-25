@@ -7,7 +7,7 @@ from flask import current_app as app
 def save_case_and_print_label(case_name: str, stl_path: str):
     case = Case.query.filter_by(name=case_name).first()
     if case is None:
-        case = Case(name=case_name)
+        case = Case(name=case_name, status="스캔->디자인")
         db.session.add(case)
         db.session.commit()   # ➜ case.id 확보
 
