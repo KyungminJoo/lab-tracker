@@ -50,6 +50,16 @@ class ScanHandler(FileSystemEventHandler):
 def start_watcher(app):
     watch_path = pathlib.Path(app.config["WATCH_PATH"])
 
+    if not watch_path.exists():
+        try:
+            watch_path.mkdir(parents=True, exist_ok=True)
+            app.logger.warning(f"📁  WATCH_PATH '{watch_path}' created")
+        except Exception as e:
+            app.logger.warning(
+                f"🚫  WATCH_PATH '{watch_path}' not found and failed to create: {e}"
+            )
+            return
+
     def _run():
         try:
             obs = Observer()               # inotify
