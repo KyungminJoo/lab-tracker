@@ -12,7 +12,8 @@ except ImportError:
 
 import os, pathlib, re, time, threading
 
-CASE_REGEX = re.compile(r'^([^\s]+)\s+.*\.stl$', re.I)
+# 파일명에서 케이스 이름을 추출하기 위한 패턴 (확장자 무관)
+CASE_REGEX = re.compile(r'^([^\s]+)\s+.*$', re.I)
 
 # ── 1. 이벤트 핸들러 ────────────────────────────────────────────
 class ScanHandler(FileSystemEventHandler):
@@ -21,7 +22,8 @@ class ScanHandler(FileSystemEventHandler):
         super().__init__()
 
     def on_created(self, event):
-        if event.is_directory or not event.src_path.lower().endswith(".stl"):
+        # 디렉터리 생성은 무시하고 모든 파일을 감시한다
+        if event.is_directory:
             return
 
         # ── 1-A.  잠깐 기다려서 파일 쓰기 완료 보장 (0.5 초 x 6 회) ──
@@ -51,12 +53,12 @@ def start_watcher(app):
     def _run():
         try:
             obs = Observer()               # inotify
-            obs.schedule(ScanHandler(app), str(watch_path), recursive=False)
+            obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
             obs.start()
             app.logger.info("✅ inotify Observer started")
         except Exception:
             obs = PollingObserver(timeout=1.0)    # Fallback
-            obs.schedule(ScanHandler(app), str(watch_path), recursive=False)
+            obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
             obs.start()
             app.logger.warning("⏱  Fallback to PollingObserver")
 
