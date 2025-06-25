@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
       headers: { 'Content-Type': 'application/json' },
       body   : JSON.stringify({ status: code })
     });
-    if (res.ok) location.reload();
-    else alert('상태 변경 실패');
+    const result = await res.json();
+    if (res.ok) {
+      document.getElementById('current-status').textContent = result.status;
+    } else {
+      alert('상태 변경 실패');
+    }
   };
 
   // 라벨 재출력 (프린터 연결 전까지는 로그만)
