@@ -49,7 +49,7 @@ async function fetchCases() {
       <tr>
         <td><input type="checkbox" value="${c.id}"></td>
         <td>${c.id}</td>
-        <td>${c.status}</td>
+        <td>${c.status_label ?? c.status}</td>
         <td>${c.updated_at ?? ''}</td>
       </tr>
     `);

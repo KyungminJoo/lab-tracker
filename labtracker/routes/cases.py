@@ -59,6 +59,7 @@ def list_cases():
         {
             "id": r.id,
             "status": r.status,
+            "status_label": Case.STATUS_LABELS.get(r.status, r.status),
             "updated_at": r.updated_at.isoformat() if r.updated_at else None,
         }
         for r in rows
@@ -76,6 +77,7 @@ def get_case(case_id):
         {
             "id": row.id,
             "status": row.status,
+            "status_label": row.status_label,
             "updated_at": row.updated_at.isoformat() if row.updated_at else None,
         }
     ), 200
