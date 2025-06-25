@@ -44,7 +44,9 @@ class ScanHandler(FileSystemEventHandler):
 
         from .services import save_case_and_print_label
         with self.app.app_context():
-            save_case_and_print_label(case_name, event.src_path)
+            success = save_case_and_print_label(case_name, event.src_path)
+            if not success:
+                self.app.logger.warning("라벨 인쇄에 실패했습니다: lp 명령을 찾을 수 없습니다.")
 
 # ── 2. 시작 함수 ───────────────────────────────────────────────
 def start_watcher(app):
