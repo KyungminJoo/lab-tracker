@@ -11,7 +11,7 @@ services:
 
     environment:
       - FLASK_ENV=production
-      - WATCH_PATH=/app/trios_scan_folder
+      - WATCH_PATH=/app/SCAN
       - PRINTER_NAME=Label
       - SITE_URL=https://labtracker.local
 
@@ -22,7 +22,7 @@ services:
     # 📌  호스트 ↔ 컨테이너 디렉터리 매핑
     volumes:
       # 1) 스캔 폴더 (읽기 전용)
-      - /volume1/trios_scan_folder:/app/trios_scan_folder:ro
+      - /volume1/SCAN:/app/SCAN:ro
 
       # 2) 코드·템플릿 실시간 반영
       - /volume1/docker/lab-tracker/labtracker:/app/labtracker:rw
