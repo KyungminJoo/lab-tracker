@@ -20,6 +20,7 @@
           <tr>
             <th><input type="checkbox" id="checkAll"></th>
             <th>ID</th>
+			<th>Case</th>
             <th>Status</th>
             <th>Updated At</th>
           </tr>
@@ -41,6 +42,7 @@ async function fetchCases() {
       <tr>
         <td><input type="checkbox" value="${c.id}"></td>
         <td>${c.id}</td>
+		<td>${c.name}</td>
         <td>${c.status_label ?? c.status}</td>
         <td>${c.updated_at ?? ''}</td>
       </tr>

@@ -53,13 +53,14 @@ def bulk_update():
 @bp.route("/api/cases", methods=["GET"])   # ← /cases → /api/cases
 def list_cases():
     rows = (
-        Case.query.with_entities(Case.id, Case.status, Case.updated_at)
+        Case.query.with_entities(Case.id, Case.name, Case.status, Case.updated_at)  # ← ★ ①
         .order_by(Case.id.asc())
         .all()
     )
     data = [
         {
             "id": r.id,
+            "name": r.name,
             "status": r.status,
             "status_label": r.status.replace("->", "→"),
             "updated_at": r.updated_at.isoformat() if r.updated_at else None,

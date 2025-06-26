@@ -22,19 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(res.ok ? '프린터로 전송!' : '출력 실패');
   };
 
-  // 파일 목록 가져오기
-  fetch(`/api/cases/${window.CASE_ID}/files`)
+  // ▶ 케이스 목록 가져오기
+  fetch('/api/cases')
     .then(r => r.json())
-    .then(files => {
-      const tbody = document.querySelector('#file-table tbody');
-      files.forEach((f, i) => {
+    .then(cases => {
+      const tbody = document.querySelector('#case-tbody');
+      cases.forEach((c, i) => {
         tbody.insertAdjacentHTML('beforeend', `
           <tr>
-            <td>${i + 1}</td>
-            <td>${f.filename}</td>
-            <td>${new Date(f.created_at).toLocaleString()}</td>
-            <td><a href="/api/files/${f.id}/download" target="_blank">⬇</a></td>
+            <td><input type="checkbox" data-id="${c.id}"></td>
+            <td>${c.id}</td>
+            <td>${c.name}</td>          <!-- ★ 이름 열 추가 -->
+            <td>${c.status}</td>
+            <td>${new Date(c.updated_at).toLocaleString()}</td>
           </tr>`);
       });
     });
-});
