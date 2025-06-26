@@ -31,6 +31,20 @@
   </div>
 </div>
 <script>
+function formatKST(iso) {
+  if (!iso) return '';
+  const utc = new Date(iso);
+  const tz = new Date(utc.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const yy = String(tz.getFullYear()).slice(-2);
+  const m = tz.getMonth() + 1;
+  const d = tz.getDate();
+  let h = tz.getHours();
+  const ampm = h >= 12 ? '오후' : '오전';
+  h = h % 12;
+  if (h === 0) h = 12;
+  const min = String(tz.getMinutes()).padStart(2, '0');
+  return `${yy}/${m}/${d} ${ampm}${h}시${min}`;
+}
 const API_BASE = '/api';
 async function fetchCases() {
   const res = await fetch(`${API_BASE}/cases`);
@@ -44,7 +58,7 @@ async function fetchCases() {
         <td><a href="/cases/${c.id}" class="text-decoration-none">${c.id}</a></td>
         <td><a href="/cases/${c.id}" class="text-decoration-none">${c.name}</a></td>
         <td>${c.status_label ?? c.status}</td>
-        <td>${c.updated_at ?? ''}</td>
+        <td>${formatKST(c.updated_at)}</td>
       </tr>
     `);
   });
