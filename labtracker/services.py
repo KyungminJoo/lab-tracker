@@ -13,7 +13,8 @@ def save_case_and_print_label(case_name: str, stl_path: str):
 
     # ② 파일 추가 → models.py 의 add_file 메서드 호출
     case.add_file(stl_path)
-    qr_data = f"{app.config['SITE_URL']}/case/{case.id}"
+    # QR 코드 스캔 시 케이스 상세 페이지로 이동하도록 URL 경로 수정
+    qr_data = f"{app.config['SITE_URL']}/cases/{case.id}"
     tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
     qrcode.make(qr_data).save(tmp.name)
 

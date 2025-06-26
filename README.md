@@ -49,7 +49,7 @@ python scripts/migrate_unique_case_name.py
 - `GET /api/cases/<id>/files` – 케이스에 속한 파일 목록
 - `POST /api/cases/<id>/files` – 파일 업로드
 - `POST /api/cases/<id>/print_label` – 라벨 재출력
-- UI 페이지: `/cases`, `/case/<id>`
+- UI 페이지: `/cases`, `/cases/<id>`
 
 ## 워처 작동 방식
 

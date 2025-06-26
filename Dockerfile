@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 
 COPY labtracker ./labtracker
 EXPOSE 5000
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "labtracker.wsgi:app"]
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:5000", "labtracker.wsgi:app"]
