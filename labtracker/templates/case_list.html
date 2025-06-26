@@ -41,8 +41,8 @@ async function fetchCases() {
     tbody.insertAdjacentHTML('beforeend', `
       <tr>
         <td><input type="checkbox" value="${c.id}"></td>
-        <td>${c.id}</td>
-		<td>${c.name}</td>
+        <td><a href="/cases/${c.id}" class="text-decoration-none">${c.id}</a></td>
+        <td><a href="/cases/${c.id}" class="text-decoration-none">${c.name}</a></td>
         <td>${c.status_label ?? c.status}</td>
         <td>${c.updated_at ?? ''}</td>
       </tr>
