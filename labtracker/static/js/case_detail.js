@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-
   // 상태 변경
   document.getElementById('change-status').onclick = async () => {
     const code = document.getElementById('new-status').value;
-    const res  = await fetch(`/api/cases/${window.CASE_ID}/status`, {
-      method : 'PATCH',
+    const res = await fetch(`/api/cases/${window.CASE_ID}/status`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ status: code })
+      body: JSON.stringify({ status: code })
     });
     const result = await res.json();
     if (res.ok) {
@@ -16,25 +15,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 라벨 재출력 (프린터 연결 전까지는 로그만)
+  // 라벨 재출력
   document.getElementById('print-label').onclick = async () => {
     const res = await fetch(`/api/cases/${window.CASE_ID}/print_label`, { method: 'POST' });
     alert(res.ok ? '프린터로 전송!' : '출력 실패');
   };
 
-  // ▶ 케이스 목록 가져오기
-  fetch('/api/cases')
-    .then(r => r.json())
-    .then(cases => {
-      const tbody = document.querySelector('#case-tbody');
-      cases.forEach((c, i) => {
-        tbody.insertAdjacentHTML('beforeend', `
-          <tr>
-            <td><input type="checkbox" data-id="${c.id}"></td>
-            <td>${c.id}</td>
-            <td>${c.name}</td>          <!-- ★ 이름 열 추가 -->
-            <td>${c.status}</td>
-            <td>${new Date(c.updated_at).toLocaleString()}</td>
-          </tr>`);
-      });
+  // 파일 목록 로드
+  async function loadFiles() {
+    const res = await fetch(`/api/cases/${window.CASE_ID}/files`);
+    const files = await res.json();
+    const tbody = document.querySelector('#file-table tbody');
+    tbody.innerHTML = '';
+    files.forEach((f, i) => {
+      tbody.insertAdjacentHTML('beforeend', `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${f.filename}</td>
+          <td>${formatKST(f.created_at)}</td>
+          <td><a class="btn btn-sm btn-outline-primary" href="/api/files/${f.id}/download">다운로드</a></td>
+        </tr>
+      `);
     });
+  }
+
+  loadFiles();
+});
+
+function formatKST(iso) {
+  if (!iso) return '';
+  const utc = new Date(iso);
+  const tz = new Date(utc.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const yy = String(tz.getFullYear()).slice(-2);
+  const m = tz.getMonth() + 1;
+  const d = tz.getDate();
+  let h = tz.getHours();
+  const ampm = h >= 12 ? '오후' : '오전';
+  h = h % 12;
+  if (h === 0) h = 12;
+  const min = String(tz.getMinutes()).padStart(2, '0');
+  return `${yy}/${m}/${d} ${ampm}${h}시${min}`;
+}
