@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function formatKST(iso) {
   if (!iso) return '';
   const utc = new Date(iso);
-  const tz = new Date(utc.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const tz = new Date(utc.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }));
   const yy = String(tz.getFullYear()).slice(-2);
   const m = tz.getMonth() + 1;
   const d = tz.getDate();

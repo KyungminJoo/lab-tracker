@@ -14,8 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${c.id}</td>
             <td>${c.name}</td>            <!-- ★ 케이스 이름 -->
             <td>${c.status}</td>
-            <td>${new Date(c.updated_at).toLocaleString()}</td>
+            <td>${formatKST(c.updated_at)}</td>
           </tr>`);
       });
     });
 });
+
+function formatKST(iso) {
+  if (!iso) return '';
+  const utc = new Date(iso);
+  const tz = new Date(utc.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }));
+  const yy = String(tz.getFullYear()).slice(-2);
+  const m = tz.getMonth() + 1;
+  const d = tz.getDate();
+  let h = tz.getHours();
+  const ampm = h >= 12 ? '오후' : '오전';
+  h = h % 12;
+  if (h === 0) h = 12;
+  const min = String(tz.getMinutes()).padStart(2, '0');
+  return `${yy}/${m}/${d} ${ampm}${h}시${min}`;
+}
