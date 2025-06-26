@@ -26,7 +26,7 @@ services:
       - /volume1/SCAN:/app/SCAN:ro
 
       # 2) 코드·템플릿 실시간 반영
-      - /volume1/docker/lab-tracker/labtracker:/app/labtracker:rw
+      - ./labtracker:/app/labtracker:rw
 
       # 3) DB 파일
       - lab_tracker_data:/app/data
