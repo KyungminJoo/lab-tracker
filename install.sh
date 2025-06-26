@@ -1,2 +1,2 @@
 #!/bin/sh
-pip install --find-links=vendor -r requirements.txt
+pip install -r requirements.txt

@@ -6,8 +6,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY requirements.txt .
-COPY vendor ./vendor
-RUN pip install --no-index --find-links=vendor -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY labtracker ./labtracker
 EXPOSE 5000
