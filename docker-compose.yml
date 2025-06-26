@@ -13,7 +13,7 @@ services:
       - FLASK_ENV=production
       - WATCH_PATH=/app/SCAN
       - PRINTER_NAME=Label
-      - SITE_URL=https://labtracker.local
+      - SITE_URL=http://192.168.0.123:15000
       - START_WATCHER=1
 
     # ⬇︎ command 블록은 딱 한 번!
