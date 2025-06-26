@@ -25,3 +25,7 @@ def case_detail(case_id):
 def case_list_page():
     """브라우저에서 /cases 요청 시 HTML 목록 템플릿 반환."""
     return render_template("case_list.html")
+
+@ui_bp.route("/")                 # ← 추가
+def index():
+    return case_list_page()       # 또는 redirect(url_for("ui.case_list_page"))

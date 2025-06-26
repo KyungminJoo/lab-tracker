@@ -23,7 +23,11 @@ class ScanHandler(FileSystemEventHandler):
 
     def on_created(self, event):
         # 디렉터리 생성은 무시하고 모든 파일을 감시한다
-        if event.is_directory:
+        if (
+            event.is_directory
+            or "/@eaDir/" in event.src_path
+            or os.path.basename(event.src_path).startswith(".")
+        ):            
             return
 
         # ── 1-A.  잠깐 기다려서 파일 쓰기 완료 보장 (0.5 초 x 6 회) ──
