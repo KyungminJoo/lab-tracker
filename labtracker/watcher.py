@@ -32,8 +32,13 @@ def handle_case_folder(app, folder: Path) -> None:
         app.logger.warning("XML missing in %s", folder)
         with app.app_context():
             try:
-                db.session.add(PendingCase(folder_name=folder.name))
-                db.session.commit()
+                pending = PendingCase.query.filter_by(folder_name=folder.name).first()
+                if pending is None:
+                    db.session.add(PendingCase(folder_name=folder.name))
+                    db.session.commit()
+                    app.logger.info("Pending case recorded for %s", folder.name)
+                else:
+                    app.logger.info("Pending case already exists for %s", folder.name)
             except Exception as e:  # pragma: no cover
                 app.logger.error("Failed to record pending case %s: %s", folder, e)
         return
