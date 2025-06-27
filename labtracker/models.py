@@ -1,5 +1,6 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
+# 모든 시간은 UTC 기준으로 기록하기 위해 timezone.utc를 사용합니다.
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSONB
 import pathlib
@@ -21,8 +22,15 @@ class Case(db.Model):
         db.JSON().with_variant(JSONB, "postgresql")
     )
     status = db.Column(db.String(32), nullable=False, default='scan완료')
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=db.func.now(),
+    )  # UTC 타임존을 유지
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=db.func.now(),
+        onupdate=db.func.now(),
+    )  # 갱신 시에도 UTC 보존
 
     @property
     def status_label(self) -> str:
@@ -32,14 +40,16 @@ class Case(db.Model):
     # files 역참조: case.files
 
     # ↓↓↓ 여기부터 메서드 추가 ↓↓↓
+    # datetime.utcnow() 대신 timezone.now(timezone.utc)를 사용해
+    # timezone-aware 값을 저장합니다.
     def add_file(self, filepath: str):
         sf = ScanFile(
             case_id=self.id,
             filename=pathlib.Path(filepath).name,
-            created_at=datetime.utcnow(),
-        )
+            created_at=datetime.now(timezone.utc),
+        )  # UTC 시간 기록
         db.session.add(sf)
-        self.updated_at = datetime.utcnow()
+        self.updated_at = datetime.now(timezone.utc)  # 업데이트 시간 역시 UTC
         db.session.commit()
         
 # ----------------------------
@@ -50,7 +60,10 @@ class ScanFile(db.Model):
     id         = db.Column(db.Integer, primary_key=True)        # ✅ PK!
     case_id    = db.Column(db.Integer, db.ForeignKey('case.id'), nullable=False)
     filename   = db.Column(db.String(256), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+    )  # UTC 기준으로 생성되는 timezone-aware 필드
 
     case = db.relationship('Case', backref='files')
 
