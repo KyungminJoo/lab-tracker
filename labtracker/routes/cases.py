@@ -53,14 +53,14 @@ def bulk_update():
 @bp.route("/api/cases", methods=["GET"])   # ← /cases → /api/cases
 def list_cases():
     rows = (
-        Case.query.with_entities(Case.id, Case.name, Case.status, Case.updated_at)  # ← ★ ①
+        Case.query.with_entities(Case.id, Case.case_id, Case.status, Case.updated_at)
         .order_by(Case.id.asc())
         .all()
     )
     data = [
         {
             "id": r.id,
-            "name": r.name,
+            "case_id": r.case_id,
             "status": r.status,
             "status_label": r.status.replace("->", "→"),
             "updated_at": r.updated_at.isoformat() if r.updated_at else None,
@@ -79,6 +79,7 @@ def get_case(case_id):
     return jsonify(
         {
             "id": row.id,
+            "case_id": row.case_id,
             "status": row.status,
             "status_label": row.status_label,
             "updated_at": row.updated_at.isoformat() if row.updated_at else None,
@@ -112,9 +113,11 @@ def case_files(case_id):
 
 # --- 라벨 재출력 (프린터 연결 전까지는 로그만) ---
 @bp.route('/api/cases/<int:case_id>/print_label', methods=['POST'])
-def print_label(case_id):
-    Case.query.get_or_404(case_id)
-    current_app.logger.info("▶ 라벨 프린트 요청: case %s", case_id)
+def print_label_route(case_id):
+    case = Case.query.get_or_404(case_id)
+    current_app.logger.info("▶ 라벨 프린트 요청: case %s", case.case_id)
+    from ..services import print_label
+    print_label(case)
     return {"ok": True}
 
 # ---------------------------------------------------------------------------

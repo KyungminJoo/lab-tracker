@@ -1,36 +1,21 @@
-import subprocess, tempfile
-import os
-import qrcode
-from .models import db, Case
 from flask import current_app as app
 
+from .models import db, Case
+
+
+def print_label(case: Case) -> None:
+    """라벨 프린터 스텁."""
+    app.logger.info("▶ 라벨 프린트 (stub): %s", case.case_id)
+
+
 def save_case_and_print_label(case_name: str, stl_path: str):
-    case = Case.query.filter_by(name=case_name).first()
+    """호환용 함수. 케이스 생성 후 파일을 추가하고 프린터 스텁 호출."""
+    case = Case.query.filter_by(case_id=case_name).first()
     if case is None:
-        case = Case(name=case_name, status="스캔->디자인")
+        case = Case(case_id=case_name, status="scan완료")
         db.session.add(case)
-        db.session.commit()   # ➜ case.id 확보
+        db.session.commit()
 
-    # ② 파일 추가 → models.py 의 add_file 메서드 호출
     case.add_file(stl_path)
-    # QR 코드 스캔 시 케이스 상세 페이지로 이동하도록 URL 경로 수정
-    qr_data = f"{app.config['SITE_URL']}/cases/{case.id}"
-    tmp = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-    qrcode.make(qr_data).save(tmp.name)
-
-    printed = True
-    try:
-        subprocess.run(
-            ["lp", "-d", app.config["PRINTER_NAME"], "-o", "fit-to-page", tmp.name],
-            check=False,
-        )
-    except FileNotFoundError:
-        printed = False
-        app.logger.warning("'lp' 명령을 찾을 수 없습니다. 라벨이 인쇄되지 않았습니다.")
-
-    try:
-        os.remove(tmp.name)
-    except OSError:
-        app.logger.warning("Could not remove temporary QR code file: %s", tmp.name)
-
-    return printed
+    print_label(case)
+    return True
