@@ -10,12 +10,16 @@ db = SQLAlchemy()
 # ----------------------------
 class Case(db.Model):
     __tablename__ = 'case'
-    id          = db.Column(db.Integer, primary_key=True)
-    name        = db.Column(db.String(128), nullable=False, unique=True)
-    status      = db.Column(db.String(32), nullable=False, default='스캔->디자인')
-    created_at  = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow,
-                           onupdate=datetime.utcnow, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    case_id = db.Column(db.String(64), nullable=False, unique=True)
+    patient_name = db.Column(db.String(64))
+    patient_ref = db.Column(db.String(32))
+    ordered_at = db.Column(db.DateTime(timezone=True))
+    restoration_items = db.Column(db.JSON)
+    shade_material = db.Column(db.String(64))
+    status = db.Column(db.String(32), nullable=False, default='scan완료')
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
 
     @property
     def status_label(self) -> str:

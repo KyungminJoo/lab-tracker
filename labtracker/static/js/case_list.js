@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <tr>
             <td><input type="checkbox" data-id="${c.id}"></td>
             <td>${c.id}</td>
-            <td>${c.name}</td>            <!-- ★ 케이스 이름 -->
+            <td>${c.case_id}</td>
             <td>${c.status}</td>
             <td>${formatKST(c.updated_at)}</td>
           </tr>`);

@@ -1,95 +1,108 @@
+import os
+import time
+from pathlib import Path
+from typing import Optional
+
 from watchdog.events import FileSystemEventHandler
-
-# ── inotify용 기본 Observer ──
 from watchdog.observers import Observer
-
-# ── PollingObserver: 버전에 따라 모듈 위치가 다르므로 try/except ──
 try:
-    from watchdog.observers.polling import PollingObserver   # ✔️  watchdog 4.x
-except ImportError:
-    # 아주 오래된 watchdog 0.x 에서는 polling 서브모듈이 없음
+    from watchdog.observers.polling import PollingObserver  # type: ignore
+except Exception:  # pragma: no cover
     PollingObserver = None
 
-import os, pathlib, re, time, threading
+from apscheduler.schedulers.background import BackgroundScheduler
 
-SCAN_ROOT = pathlib.Path("/app/3shape_orders")
+from .models import db, Case
+from .services import print_label
+from utils.parser import parse_case_xml
 
-# 파일명에서 케이스 이름을 추출하기 위한 패턴 (확장자 무관)
-CASE_REGEX = re.compile(r'^([^\s]+)\s+.*$', re.I)
 
-# ── 1. 이벤트 핸들러 ────────────────────────────────────────────
-class ScanHandler(FileSystemEventHandler):
+def wait_for_xml(folder: Path, retries: int = 3, interval: int = 10) -> Optional[Path]:
+    for _ in range(retries):
+        candidates = [p for p in folder.glob("*.xml") if p.name != "Materials.xml"]
+        if candidates:
+            return candidates[0]
+        time.sleep(interval)
+    return None
+
+
+def handle_case_folder(app, folder: Path) -> None:
+    xml = wait_for_xml(folder)
+    if xml is None:
+        app.logger.warning("XML missing in %s", folder)
+        return
+    data = parse_case_xml(xml, folder)
+    with app.app_context():
+        if Case.query.filter_by(case_id=data["case_id"]).first():
+            return
+        case = Case(**data)
+        db.session.add(case)
+        db.session.commit()
+        print_label(case)
+        app.logger.info("INSERT %s", data["case_id"])
+
+
+def rescan_all(app) -> None:
+    base = Path(app.config["WATCH_PATH"])
+    if not base.exists():
+        return
+    for folder in base.iterdir():
+        if folder.is_dir():
+            xml = wait_for_xml(folder, retries=1, interval=0)
+            if not xml:
+                continue
+            data = parse_case_xml(xml, folder)
+            with app.app_context():
+                if not Case.query.filter_by(case_id=data["case_id"]).first():
+                    case = Case(**data)
+                    db.session.add(case)
+                    db.session.commit()
+                    print_label(case)
+
+
+class FolderHandler(FileSystemEventHandler):
     def __init__(self, app):
         self.app = app
         super().__init__()
 
     def on_created(self, event):
-        # ① NAS가 만드는 임시·메타 파일은 건너뜀
-        basename = os.path.basename(event.src_path)
-        if basename.startswith("@eaDir") or basename.startswith("@tmp") \
-           or basename.startswith(".DS_Store"):
-            return
+        if event.is_directory:
+            handle_case_folder(self.app, Path(event.src_path))
 
-        # ── 1-A.  잠깐 기다려서 파일 쓰기 완료 보장 (0.5 초 x 6 회) ──
-        for _ in range(6):
-            prev = os.path.getsize(event.src_path)
-            time.sleep(0.5)
-            if os.path.getsize(event.src_path) == prev:
-                break     # 사이즈가 더 안 변하면 탈출
 
-        stem = pathlib.Path(event.src_path).stem
-        m = CASE_REGEX.match(stem)
-        if not m:
-            self.app.logger.info(f"🚫  규칙 불일치 → {stem}")
-            return
-
-        case_name = m.group(1)
-        self.app.logger.info(f"🆕  새 스캔: {case_name} ({event.src_path})")
-
-        from .services import save_case_and_print_label
-        with self.app.app_context():
-            success = save_case_and_print_label(case_name, event.src_path)
-            if not success:
-                self.app.logger.warning("라벨 인쇄에 실패했습니다: lp 명령을 찾을 수 없습니다.")
-
-# ── 2. 시작 함수 ───────────────────────────────────────────────
 def start_watcher(app):
     if os.getenv("START_WATCHER", "1") != "1":
         app.logger.info("START_WATCHER=0 → 워처 비활성화")
         return
 
-    watch_path = pathlib.Path(app.config["WATCH_PATH"])
-
+    watch_path = Path(app.config["WATCH_PATH"])
     if not watch_path.exists():
         try:
             watch_path.mkdir(parents=True, exist_ok=True)
-            app.logger.warning(f"📁  WATCH_PATH '{watch_path}' created")
-        except Exception as e:
-            app.logger.warning(
-                f"🚫  WATCH_PATH '{watch_path}' not found and failed to create: {e}"
-            )
+            app.logger.warning("📁  WATCH_PATH '%s' created", watch_path)
+        except Exception as e:  # pragma: no cover
+            app.logger.warning("🚫  WATCH_PATH '%s' not found: %s", watch_path, e)
             return
 
     def _run():
         try:
-            obs = Observer()               # inotify
-            obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
+            obs = Observer()
+            obs.schedule(FolderHandler(app), str(watch_path), recursive=False)
             obs.start()
             app.logger.info("✅ inotify Observer started")
-        except Exception as exc:
-            if PollingObserver is None:
-                app.logger.error("❌ PollingObserver 사용 불가 – 감시 기능 비활성화")
-                app.logger.exception(exc)
+        except Exception:
+            if not PollingObserver:
+                app.logger.error("❌ PollingObserver 사용 불가 – 감시 비활성화")
                 return
-            try:
-                obs = PollingObserver(timeout=1.0)    # Fallback
-                obs.schedule(ScanHandler(app), str(watch_path), recursive=True)
-                obs.start()
-                app.logger.warning("⏱  Fallback to PollingObserver")
-            except Exception:
-                app.logger.exception("❌ PollingObserver 시작 실패")
-                raise
-
+            obs = PollingObserver(timeout=1.0)
+            obs.schedule(FolderHandler(app), str(watch_path), recursive=False)
+            obs.start()
+            app.logger.warning("⏱  Fallback to PollingObserver")
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(lambda: rescan_all(app), "interval", minutes=5)
+        scheduler.start()
         obs.join()
+
+    import threading
 
     threading.Thread(target=_run, daemon=True).start()

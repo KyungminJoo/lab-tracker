@@ -1,6 +1,5 @@
 from flask import Flask
 
-from .routes import bp as api_bp                      # 동일 객체 로드
 from .routes.web import ui_bp                         # 웹 UI 블루프린트
 from .routes.cases import bp as api_bp  # API 블루프린트 정의 및 엔드포인트 로드
 

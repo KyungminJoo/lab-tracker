@@ -56,7 +56,7 @@ async function fetchCases() {
       <tr>
         <td><input type="checkbox" value="${c.id}"></td>
         <td><a href="/cases/${c.id}" class="text-decoration-none">${c.id}</a></td>
-        <td><a href="/cases/${c.id}" class="text-decoration-none">${c.name}</a></td>
+        <td><a href="/cases/${c.id}" class="text-decoration-none">${c.case_id}</a></td>
         <td>${c.status_label ?? c.status}</td>
         <td>${formatKST(c.updated_at)}</td>
       </tr>
