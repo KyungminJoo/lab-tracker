@@ -24,6 +24,7 @@ services:
     volumes:
       # 1) 스캔 폴더 (읽기 전용)
       - /volume1/SCAN:/app/SCAN:ro
+      - /volume1/3shape_orders:/app/3shape_orders:ro
 
       # 2) 코드·템플릿 실시간 반영
       - ./labtracker:/app/labtracker:rw
