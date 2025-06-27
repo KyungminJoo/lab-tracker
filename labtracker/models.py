@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.postgresql import JSONB
 import pathlib
 
 db = SQLAlchemy()
@@ -15,8 +16,10 @@ class Case(db.Model):
     patient_name = db.Column(db.String(64))
     patient_ref = db.Column(db.String(32))
     ordered_at = db.Column(db.DateTime(timezone=True))
-    restoration_items = db.Column(db.JSON)
-    shade_material = db.Column(db.String(64))
+    restoration_items = db.Column(db.JSON().with_variant(JSONB, "postgresql"))
+    shade_material = db.Column(
+        db.JSON().with_variant(JSONB, "postgresql")
+    )
     status = db.Column(db.String(32), nullable=False, default='scan완료')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), onupdate=db.func.now())
@@ -57,6 +60,15 @@ class ScanFile(db.Model):
             "filename"  : self.filename,
             "created_at": self.created_at.isoformat(),
         }
+
+# ----------------------------
+#  XML 미수신 폴더 기록 ------
+# ----------------------------
+class PendingCase(db.Model):
+    __tablename__ = 'pending_case'
+    id = db.Column(db.Integer, primary_key=True)
+    folder_name = db.Column(db.String(128), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
 
 # -------------------------------------------------
 #  DB 초기화 헬퍼 ----------------------------------

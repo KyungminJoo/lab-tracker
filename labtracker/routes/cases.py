@@ -54,7 +54,7 @@ def bulk_update():
 def list_cases():
     rows = (
         Case.query.with_entities(Case.id, Case.case_id, Case.status, Case.updated_at)
-        .order_by(Case.id.asc())
+        .order_by(Case.created_at.desc())
         .all()
     )
     data = [

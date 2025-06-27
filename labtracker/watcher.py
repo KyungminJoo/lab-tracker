@@ -12,7 +12,7 @@ except Exception:  # pragma: no cover
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from .models import db, Case
+from .models import db, Case, PendingCase
 from .services import print_label
 from utils.parser import parse_case_xml
 
@@ -30,16 +30,25 @@ def handle_case_folder(app, folder: Path) -> None:
     xml = wait_for_xml(folder)
     if xml is None:
         app.logger.warning("XML missing in %s", folder)
+        with app.app_context():
+            try:
+                db.session.add(PendingCase(folder_name=folder.name))
+                db.session.commit()
+            except Exception as e:  # pragma: no cover
+                app.logger.error("Failed to record pending case %s: %s", folder, e)
         return
-    data = parse_case_xml(xml, folder)
-    with app.app_context():
-        if Case.query.filter_by(case_id=data["case_id"]).first():
-            return
-        case = Case(**data)
-        db.session.add(case)
-        db.session.commit()
-        print_label(case)
-        app.logger.info("INSERT %s", data["case_id"])
+    try:
+        data = parse_case_xml(xml, folder)
+        with app.app_context():
+            if Case.query.filter_by(case_id=data["case_id"]).first():
+                return
+            case = Case(**data)
+            db.session.add(case)
+            db.session.commit()
+            print_label(case)
+            app.logger.info("INSERT %s", data["case_id"])
+    except Exception as e:  # pragma: no cover
+        app.logger.error("Error handling folder %s: %s", folder, e)
 
 
 def rescan_all(app) -> None:
@@ -51,13 +60,16 @@ def rescan_all(app) -> None:
             xml = wait_for_xml(folder, retries=1, interval=0)
             if not xml:
                 continue
-            data = parse_case_xml(xml, folder)
-            with app.app_context():
-                if not Case.query.filter_by(case_id=data["case_id"]).first():
-                    case = Case(**data)
-                    db.session.add(case)
-                    db.session.commit()
-                    print_label(case)
+            try:
+                data = parse_case_xml(xml, folder)
+                with app.app_context():
+                    if not Case.query.filter_by(case_id=data["case_id"]).first():
+                        case = Case(**data)
+                        db.session.add(case)
+                        db.session.commit()
+                        print_label(case)
+            except Exception as e:  # pragma: no cover
+                app.logger.error("Rescan error in %s: %s", folder, e)
 
 
 class FolderHandler(FileSystemEventHandler):
@@ -87,7 +99,7 @@ def start_watcher(app):
     def _run():
         try:
             obs = Observer()
-            obs.schedule(FolderHandler(app), str(watch_path), recursive=False)
+            obs.schedule(FolderHandler(app), str(watch_path), recursive=True)
             obs.start()
             app.logger.info("✅ inotify Observer started")
         except Exception:
@@ -95,7 +107,7 @@ def start_watcher(app):
                 app.logger.error("❌ PollingObserver 사용 불가 – 감시 비활성화")
                 return
             obs = PollingObserver(timeout=1.0)
-            obs.schedule(FolderHandler(app), str(watch_path), recursive=False)
+            obs.schedule(FolderHandler(app), str(watch_path), recursive=True)
             obs.start()
             app.logger.warning("⏱  Fallback to PollingObserver")
         scheduler = BackgroundScheduler()
