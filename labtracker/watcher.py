@@ -47,8 +47,8 @@ def handle_case_folder(app, folder: Path) -> None:
             db.session.commit()
             print_label(case)
             app.logger.info("INSERT %s", data["case_id"])
-    except Exception as e:  # pragma: no cover
-        app.logger.error("Error handling folder %s: %s", folder, e)
+    except Exception:  # pragma: no cover
+        app.logger.exception("Error handling folder %s", folder)
 
 
 def rescan_all(app) -> None:
@@ -68,8 +68,8 @@ def rescan_all(app) -> None:
                         db.session.add(case)
                         db.session.commit()
                         print_label(case)
-            except Exception as e:  # pragma: no cover
-                app.logger.error("Rescan error in %s: %s", folder, e)
+            except Exception:  # pragma: no cover
+                app.logger.exception("Rescan error in %s", folder)
 
 
 class FolderHandler(FileSystemEventHandler):
