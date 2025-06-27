@@ -50,6 +50,11 @@ def handle_case_folder(app, folder: Path) -> None:
             case = Case(**data)
             db.session.add(case)
             db.session.commit()
+            # 성공적으로 케이스가 등록되면 같은 폴더 이름의 PendingCase를 제거한다
+            pending = PendingCase.query.filter_by(folder_name=folder.name).first()
+            if pending:
+                db.session.delete(pending)
+                db.session.commit()
             print_label(case)
             app.logger.info("INSERT %s", data["case_id"])
     except Exception:  # pragma: no cover
@@ -72,6 +77,10 @@ def rescan_all(app) -> None:
                         case = Case(**data)
                         db.session.add(case)
                         db.session.commit()
+                        pending = PendingCase.query.filter_by(folder_name=folder.name).first()
+                        if pending:
+                            db.session.delete(pending)
+                            db.session.commit()
                         print_label(case)
             except Exception:  # pragma: no cover
                 app.logger.exception("Rescan error in %s", folder)
