@@ -89,6 +89,13 @@ class PendingCase(db.Model):
 def init_db(app):
     """Flask 앱 컨텍스트에서 테이블을 모두 생성한다."""
     with app.app_context():
-        db.create_all()
-
+        try:
+            db.create_all()
+        except Exception as e:
+            # 이미 테이블이 존재하면 OperationalError 날 수 있으니 무시
+            from sqlalchemy.exc import OperationalError
+            if isinstance(e, OperationalError):
+                app.logger.info("init_db: tables already exist, skipping create_all")
+            else:
+                raise
 

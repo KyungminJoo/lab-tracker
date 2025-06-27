@@ -120,3 +120,5 @@ cython_debug/
 # VS Code
 .vscode/
 
+data/*.db
+data/*.swp
