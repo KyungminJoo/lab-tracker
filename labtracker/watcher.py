@@ -12,6 +12,8 @@ except ImportError:
 
 import os, pathlib, re, time, threading
 
+SCAN_ROOT = pathlib.Path("/app/3shape_orders")
+
 # 파일명에서 케이스 이름을 추출하기 위한 패턴 (확장자 무관)
 CASE_REGEX = re.compile(r'^([^\s]+)\s+.*$', re.I)
 
