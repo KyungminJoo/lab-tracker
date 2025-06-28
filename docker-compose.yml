@@ -33,5 +33,4 @@ services:
       - ./data:/app/data
       #   ↳ 호스트 ./data 폴더에 labtracker.db 가 저장됨
 
-volumes:
-  lab_tracker_data:
+

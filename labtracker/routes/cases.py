@@ -94,6 +94,7 @@ def update_status(case_id: int):
     """단일 케이스의 상태를 변경한다."""
     payload = request.get_json() or {}
     new_status = payload.get("status")
+
     if new_status not in VALID_STATUSES:
         return jsonify({"msg": "invalid status"}), 400
 
@@ -101,7 +102,11 @@ def update_status(case_id: int):
     case.status = new_status
     case.updated_at = datetime.utcnow()
     db.session.commit()
-    return jsonify({"status": case.status}), 200
+
+    return jsonify({
+        "status": case.status,
+        "status_label": case.status_label
+    }), 200
 
 # ─────────────────────────────────────────────────────────────
 #  단일 케이스의 파일 목록  GET /api/cases/<id>/files

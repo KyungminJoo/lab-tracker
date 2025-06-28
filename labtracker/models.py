@@ -5,6 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSONB
 import pathlib
 
+STATUS_LABELS = {
+    "scan→디자인": "스캔→디자인",
+    "디자인→밀링": "디자인→밀링",
+    "밀링→신터링&크레이징": "밀링→신터링&크레이징",
+    "기공완료": "기공완료",
+}
+
 db = SQLAlchemy()
 
 # ----------------------------
@@ -33,9 +40,9 @@ class Case(db.Model):
     )  # 갱신 시에도 UTC 보존
 
     @property
-    def status_label(self) -> str:
-        """현재 상태 문자열을 화살표 기호로 변환하여 반환한다."""
-        return self.status.replace("->", "→")
+    def status_label(self):
+        """상태 코드를 사람이 읽기 좋은 한글 라벨로 반환"""
+        return STATUS_LABELS.get(self.status, self.status)
 
     # files 역참조: case.files
 

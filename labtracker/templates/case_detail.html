@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}케이스 {{ case.id }}{% endblock %}
 {% block content %}
-<div class="card">
+<div class="card" id="case-detail" data-case-id="{{ case.id }}">
   <div class="card-body">
     <h1 class="h4 mb-3">케이스 #{{ case.id }}</h1>
     <div class="d-flex align-items-center gap-3 mb-4">
@@ -36,8 +36,9 @@
   </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/case_detail.js') }}"></script>
 <script>
-  window.CASE_ID = {{ case.id }};
+  // 전역 변수 대신 data-case-id를 쓰려면 이 줄은 지워도 됩니다.
+  // window.CASE_ID = {{ case.id }};
 </script>
+<script src="{{ url_for('static', filename='js/case_detail.js') }}"></script>
 {% endblock %}
