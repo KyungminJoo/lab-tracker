@@ -11,7 +11,7 @@ services:
 
     environment:
       - FLASK_ENV=production
-      - WATCH_PATH=/volume1/3shape_orders
+      - WATCH_PATH="/volume1/3shape_orders/3Shape Dental System Orders"
       - PRINTER_NAME=Label
       - SITE_URL=http://192.168.0.123:15000
       - START_WATCHER=1
@@ -24,7 +24,7 @@ services:
     volumes:
       # 1) 스캔 폴더 (읽기 전용)
       - /volume1/SCAN:/app/SCAN:ro
-      - /volume1/3shape_orders:/volume1/3shape_orders:ro
+      - "/volume1/3shape_orders/3Shape Dental System Orders:/volume1/3shape_orders/3Shape Dental System Orders:ro"
 
       # 2) 코드·템플릿 실시간 반영
       - ./labtracker:/app/labtracker:rw
