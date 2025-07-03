@@ -110,6 +110,9 @@ def start_watcher(app):
             app.logger.warning("🚫  WATCH_PATH '%s' not found: %s", watch_path, e)
             return
 
+    # 서버 시작 직후 기존 폴더들을 한 번 스캔하여 DB에 등록한다
+    rescan_all(app)
+
     def _run():
         try:
             obs = Observer()
