@@ -10,6 +10,7 @@ services:
       - "15000:5000"
 
     environment:
+      TZ: Asia/Seoul
       FLASK_ENV: production
       WATCH_PATH: /volume1/3shape_orders/3Shape Dental System Orders
       PRINTER_NAME: Label
