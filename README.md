@@ -67,7 +67,7 @@ python scripts/init_db.py
 
 애플리케이션이 실행되면 `create_app()` 내부에서 `start_watcher()`가 호출되어
 주문 폴더 감시가 시작됩니다. 감시 대상 폴더는 환경 변수 `WATCH_PATH`로 지정하며
-기본값은 `/volume1/3shape_orders`입니다. 폴더가 존재하지 않으면 시작 시 자동으로
+기본값은 `/volume1/3shape_orders/3Shape Dental System Orders`입니다. 폴더가 존재하지 않으면 시작 시 자동으로
 생성됩니다.
 
 워처는 `watchdog` 라이브러리의 `Observer`(inotify)를 우선 사용하고, 실패할 경우
