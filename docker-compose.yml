@@ -10,11 +10,11 @@ services:
       - "15000:5000"
 
     environment:
-      - FLASK_ENV=production
-      - WATCH_PATH="/volume1/3shape_orders/3Shape Dental System Orders"
-      - PRINTER_NAME=Label
-      - SITE_URL=http://192.168.0.123:15000
-      - START_WATCHER=1
+      FLASK_ENV: production
+      WATCH_PATH: /volume1/3shape_orders/3Shape Dental System Orders
+      PRINTER_NAME: Label
+      SITE_URL: http://192.168.0.123:15000
+      START_WATCHER: 1
 
     # ⬇︎ command 블록은 딱 한 번!
     command: >
