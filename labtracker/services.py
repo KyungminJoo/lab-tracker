@@ -41,7 +41,12 @@ def print_label(case: Case) -> None:
     if output_dir:
         path = Path(output_dir)
         path.mkdir(parents=True, exist_ok=True)
-        out_file = path / f"{case.case_id}.png"
+        file_stem = case.patient_name or case.case_id
+        if file_stem:
+            file_stem = file_stem.replace("/", "_").replace("\\", "_")
+        else:
+            file_stem = str(case.id)
+        out_file = path / f"{file_stem}.png"
         img.save(out_file, format="PNG")
         app.logger.info("라벨 이미지를 %s 에 저장했습니다", out_file)
         return
