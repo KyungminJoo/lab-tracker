@@ -13,3 +13,4 @@ class Config:
     )
     PRINTER_NAME = os.getenv("PRINTER_NAME", "Label")
     SITE_URL = os.getenv("SITE_URL", "http://localhost:15000")
+    LABEL_OUTPUT_DIR = os.getenv("LABEL_OUTPUT_DIR")

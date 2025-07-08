@@ -38,6 +38,10 @@ docker compose up --build
 docker exec cups bash -c "echo 'TEST' | lp -d Label"
 ```
 
+프린터를 사용할 수 없는 경우에는 `LABEL_OUTPUT_DIR` 환경 변수에 디렉터리 경로를 지정하면
+라벨 이미지를 파일로 저장할 수 있습니다. 경로가 없으면 자동으로 생성되며
+`<case_id>.png` 형태로 저장됩니다. 이 변수를 설정하면 `lp` 명령은 실행되지 않습니다.
+
 위 명령이 성공한다면 애플리케이션 컨테이너에서도 동일한 이름을 사용해 출력할 수 있습니다.
 
 ## DB 초기화 및 마이그레이션
