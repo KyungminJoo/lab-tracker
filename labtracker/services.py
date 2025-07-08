@@ -17,7 +17,18 @@ def print_label(case: Case) -> None:
     site_url = app.config.get("SITE_URL", "")
     qr_img = qrcode.make(f"{site_url}/cases/{case.id}").resize((150, 150))
 
-    img = Image.new("RGB", (400, 180), "white")
+    width = app.config.get("LABEL_WIDTH_PX", 400)
+    height = app.config.get("LABEL_HEIGHT_PX", 180)
+    try:
+        width = int(width)
+    except Exception:
+        width = 400
+    try:
+        height = int(height)
+    except Exception:
+        height = 180
+
+    img = Image.new("RGB", (width, height), "white")
     img.paste(qr_img, (10, 15))
     draw, font, y = ImageDraw.Draw(img), ImageFont.load_default(), 20
     draw.text((170, y), f"Case: {case.case_id}", font=font, fill="black")
