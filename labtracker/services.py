@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import current_app as app
 from .models import db, Case
 import os, subprocess, tempfile
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 
@@ -9,9 +10,7 @@ import qrcode
 # ────────────────────────────── 라벨 프린터 전송 ──────────────────────────────
 def print_label(case: Case) -> None:
     printer = app.config.get("PRINTER_NAME") or os.getenv("PRINTER_NAME")
-    if not printer:
-        app.logger.info("PRINTER_NAME 미지정 – 인쇄 생략")
-        return
+    output_dir = app.config.get("LABEL_OUTPUT_DIR") or os.getenv("LABEL_OUTPUT_DIR")
 
     app.logger.info("▶ 라벨 프린트 시작: %s", case.case_id)
 
@@ -21,10 +20,24 @@ def print_label(case: Case) -> None:
     img = Image.new("RGB", (400, 180), "white")
     img.paste(qr_img, (10, 15))
     draw, font, y = ImageDraw.Draw(img), ImageFont.load_default(), 20
-    draw.text((170, y), f"Case: {case.case_id}", font=font, fill="black");       y += 40
+    draw.text((170, y), f"Case: {case.case_id}", font=font, fill="black")
+    y += 40
     if case.patient_name:
-        draw.text((170, y), case.patient_name, font=font, fill="black");         y += 40
+        draw.text((170, y), case.patient_name, font=font, fill="black")
+        y += 40
     draw.text((170, y), case.status_label, font=font, fill="black")
+
+    if output_dir:
+        path = Path(output_dir)
+        path.mkdir(parents=True, exist_ok=True)
+        out_file = path / f"{case.case_id}.png"
+        img.save(out_file, format="PNG")
+        app.logger.info("라벨 이미지를 %s 에 저장했습니다", out_file)
+        return
+
+    if not printer:
+        app.logger.info("PRINTER_NAME 미지정 – 인쇄 생략")
+        return
 
     with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
         img.save(tmp.name, format="PNG")
@@ -32,7 +45,7 @@ def print_label(case: Case) -> None:
 
     try:
         subprocess.run(["lp", "-d", printer, temp_path], check=True)
-    except Exception as e:            # 병원 밖에서 테스트 중이면 항상 실패할 수 있음
+    except Exception as e:  # 병원 밖에서 테스트 중이면 항상 실패할 수 있음
         app.logger.error("Print failed: %s", e)
     finally:
         try:
