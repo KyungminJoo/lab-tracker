@@ -16,7 +16,7 @@ services:
       PRINTER_NAME: Label
       SITE_URL: http://192.168.0.123:15000
       START_WATCHER: 1
-      LABEL_OUTPUT_DIR: ""  # 경로 지정 시 라벨 이미지를 파일로 저장
+      LABEL_OUTPUT_DIR: /volume1/SCAN/label
 
     # ⬇︎ command 블록은 딱 한 번!
     command: >

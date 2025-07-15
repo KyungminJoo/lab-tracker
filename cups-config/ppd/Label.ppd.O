@@ -1,0 +1,423 @@
+*PPD-Adobe: "4.3"
+*%
+*% For information on using this, and to obtain the required backend
+*% script, consult http://www.openprinting.org/
+*%
+*% This file is published under the GNU General Public License
+*%
+*% PPD-O-MATIC (4.0.0 or newer) generated this PPD file. It is for use with 
+*% all programs and environments which use PPD files for dealing with
+*% printer capability information. The printer must be configured with the
+*% "foomatic-rip" backend filter script of Foomatic 4.0.0 or newer. This 
+*% file and "foomatic-rip" work together to support PPD-controlled printer
+*% driver option access with all supported printer drivers and printing
+*% spoolers.
+*%
+*% To save this file on your disk, wait until the download has completed
+*% (the animation of the browser logo must stop) and then use the
+*% "Save as..." command in the "File" menu of your browser or in the 
+*% pop-up manu when you click on this document with the right mouse button.
+*% DO NOT cut and paste this file into an editor with your mouse. This can
+*% introduce additional line breaks which lead to unexpected results.
+*%
+*% You may save this file as 'Brother-QL-820NWB-ptouch-ql.ppd'
+*%
+*%
+*FormatVersion:	"4.3"
+*FileVersion:	"1.1"
+*LanguageVersion: English 
+*LanguageEncoding: ISOLatin1
+*PCFileName:	"BRQ820QL.PPD"
+*Manufacturer:	"Brother"
+*Product:	"(QL-820NWB)"
+*cupsVersion:	1.0
+*cupsManualCopies: True
+*cupsModelNumber:  2
+*cupsFilter:	"application/vnd.cups-postscript 100 foomatic-rip"
+*cupsFilter:	"application/vnd.cups-pdf 0 foomatic-rip"
+*%pprRIP:        foomatic-rip other
+*ModelName:     "Brother QL-820NWB"
+*ShortNickName: "Brother QL-820NWB ptouch-ql"
+*NickName:      "Brother QL-820NWB Foomatic/ptouch-ql (recommended)"
+*PSVersion:	"(3010.000) 550"
+*PSVersion:	"(3010.000) 651"
+*PSVersion:	"(3010.000) 652"
+*PSVersion:	"(3010.000) 653"
+*PSVersion:	"(3010.000) 704"
+*PSVersion:	"(3010.000) 705"
+*PSVersion:	"(3010.000) 800"
+*PSVersion:	"(3010.000) 815"
+*PSVersion:	"(3010.000) 850"
+*PSVersion:	"(3010.000) 860"
+*PSVersion:	"(3010.000) 861"
+*PSVersion:	"(3010.000) 862"
+*PSVersion:	"(3010.000) 863"
+*PSVersion:	"(3010.000) 864"
+*PSVersion:	"(3010.000) 870"
+*LanguageLevel:	"3"
+*ColorDevice:	False
+*DefaultColorSpace: Gray
+*FileSystem:	False
+*Throughput:	"1"
+*LandscapeOrientation: Plus90
+*TTRasterizer:	Type42
+*1284DeviceID: "MFG:Brother;MDL:QL-820NWB;CMD:PT-CBP;DRV:Dptouch-ql,R1,M0,TF;"
+
+*driverName ptouch-ql: ""
+*driverType F/Filter: ""
+*driverObsolete: False
+
+
+
+
+*HWMargins: 4.32 8.40 4.32 8.4
+*VariablePaperSize: True
+*MaxMediaWidth: 100000
+*MaxMediaHeight: 100000
+*NonUIOrderDependency: 100 AnySetup *CustomPageSize
+*CustomPageSize True: "pop pop pop
+<</PageSize [ 5 -2 roll ] /ImagingBBox null>>setpagedevice"
+*End
+*ParamCustomPageSize Width: 1 points 36 100000
+*ParamCustomPageSize Height: 2 points 36 100000
+*ParamCustomPageSize Orientation: 3 int 0 0
+*ParamCustomPageSize WidthOffset: 4 points 0 0
+*ParamCustomPageSize HeightOffset: 5 points 0 0
+
+*FoomaticIDs: Brother-QL-820NWB ptouch-ql
+*FoomaticRIPCommandLine: "gs -q -dBATCH -dPARANOIDSAFER -dQUIET -dNOPA&&
+USE -sDEVICE=cups %A%Z -sOutputFile=- - | rastertoptch &apos;%B&apos;"
+*End
+
+*OpenGroup: General/General
+
+*OpenUI *PageSize/Page Size: PickOne
+*OrderDependency: 100 AnySetup *PageSize
+*DefaultPageSize: 62mm
+*PageSize 12mm/12mm (0.47"): "<</PageSize[34 284]/ImagingBBox null>>setpagedevice"
+*PageSize 12mm-circular/12mm Circular (0.47"): "<</PageSize[34 34]/ImagingBBox null>>setpagedevice"
+*PageSize 17x54mm/17mm x 54mm (0.66" x 2.1"): "<</PageSize[48 153]/ImagingBBox null>>setpagedevice"
+*PageSize 17x87mm/17mm x 87mm (0.66" x 3.4"): "<</PageSize[48 246]/ImagingBBox null>>setpagedevice"
+*PageSize 23x23mm/23mm x 23mm (0.9"x0.9"): "<</PageSize[65 65]/ImagingBBox null>>setpagedevice"
+*PageSize 24mm-circular/24mm Circular (0.94"): "<</PageSize[68 68]/ImagingBBox null>>setpagedevice"
+*PageSize 29mm/29mm (1.1"): "<</PageSize[82 284]/ImagingBBox null>>setpagedevice"
+*PageSize 29x90mm/29mm x 90mm (1.1" x 3.5"): "<</PageSize[82 255]/ImagingBBox null>>setpagedevice"
+*PageSize 38mm/38mm (1.4"): "<</PageSize[108 284]/ImagingBBox null>>setpagedevice"
+*PageSize 38x90mm/38mm x 90mm (1.4" x 3.5"): "<</PageSize[108 255]/ImagingBBox null>>setpagedevice"
+*PageSize 50mm/50mm (1.9"): "<</PageSize[142 284]/ImagingBBox null>>setpagedevice"
+*PageSize 54mm/54mm (2.1"): "<</PageSize[153 284]/ImagingBBox null>>setpagedevice"
+*PageSize 58mm-circular/58mm Circular (2.2", CD/DVD): "<</PageSize[165 165]/ImagingBBox null>>setpagedevice"
+*PageSize 62mm/62mm (2.4"): "<</PageSize[176 284]/ImagingBBox null>>setpagedevice"
+*PageSize 62x29mm/62mm x 29mm (2.3" x 1.1"): "<</PageSize[176 82]/ImagingBBox null>>setpagedevice"
+*PageSize 62x100mm/62mm x 100mm (2.3" x 3.9"): "<</PageSize[176 283]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageSize
+
+*OpenUI *PageRegion: PickOne
+*OrderDependency: 100 AnySetup *PageRegion
+*DefaultPageRegion: 62mm
+*PageRegion 12mm/12mm (0.47"): "<</PageSize[34 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 12mm-circular/12mm Circular (0.47"): "<</PageSize[34 34]/ImagingBBox null>>setpagedevice"
+*PageRegion 17x54mm/17mm x 54mm (0.66" x 2.1"): "<</PageSize[48 153]/ImagingBBox null>>setpagedevice"
+*PageRegion 17x87mm/17mm x 87mm (0.66" x 3.4"): "<</PageSize[48 246]/ImagingBBox null>>setpagedevice"
+*PageRegion 23x23mm/23mm x 23mm (0.9"x0.9"): "<</PageSize[65 65]/ImagingBBox null>>setpagedevice"
+*PageRegion 24mm-circular/24mm Circular (0.94"): "<</PageSize[68 68]/ImagingBBox null>>setpagedevice"
+*PageRegion 29mm/29mm (1.1"): "<</PageSize[82 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 29x90mm/29mm x 90mm (1.1" x 3.5"): "<</PageSize[82 255]/ImagingBBox null>>setpagedevice"
+*PageRegion 38mm/38mm (1.4"): "<</PageSize[108 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 38x90mm/38mm x 90mm (1.4" x 3.5"): "<</PageSize[108 255]/ImagingBBox null>>setpagedevice"
+*PageRegion 50mm/50mm (1.9"): "<</PageSize[142 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 54mm/54mm (2.1"): "<</PageSize[153 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 58mm-circular/58mm Circular (2.2", CD/DVD): "<</PageSize[165 165]/ImagingBBox null>>setpagedevice"
+*PageRegion 62mm/62mm (2.4"): "<</PageSize[176 284]/ImagingBBox null>>setpagedevice"
+*PageRegion 62x29mm/62mm x 29mm (2.3" x 1.1"): "<</PageSize[176 82]/ImagingBBox null>>setpagedevice"
+*PageRegion 62x100mm/62mm x 100mm (2.3" x 3.9"): "<</PageSize[176 283]/ImagingBBox null>>setpagedevice"
+*CloseUI: *PageRegion
+
+*DefaultImageableArea: 62mm
+*ImageableArea 12mm/12mm (0.47"): "4.32 8.40 29.68 275.60"
+*ImageableArea 12mm-circular/12mm Circular (0.47"): "5.76 5.76 28.24 28.24"
+*ImageableArea 17x54mm/17mm x 54mm (0.66" x 2.1"): "4.32 8.40 43.68 144.60"
+*ImageableArea 17x87mm/17mm x 87mm (0.66" x 3.4"): "4.32 8.40 43.68 237.60"
+*ImageableArea 23x23mm/23mm x 23mm (0.9"x0.9"): "4.32 8.40 60.68 56.60"
+*ImageableArea 24mm-circular/24mm Circular (0.94"): "5.76 5.76 62.24 62.24"
+*ImageableArea 29mm/29mm (1.1"): "4.32 8.40 77.68 275.60"
+*ImageableArea 29x90mm/29mm x 90mm (1.1" x 3.5"): "4.32 8.40 77.68 246.60"
+*ImageableArea 38mm/38mm (1.4"): "4.32 8.40 103.68 275.60"
+*ImageableArea 38x90mm/38mm x 90mm (1.4" x 3.5"): "4.32 8.40 103.68 246.60"
+*ImageableArea 50mm/50mm (1.9"): "4.32 8.40 137.68 275.60"
+*ImageableArea 54mm/54mm (2.1"): "5.76 8.40 147.24 275.60"
+*ImageableArea 58mm-circular/58mm Circular (2.2", CD/DVD): "8.40 8.40 156.60 156.60"
+*ImageableArea 62mm/62mm (2.4"): "4.32 8.40 171.68 275.60"
+*ImageableArea 62x29mm/62mm x 29mm (2.3" x 1.1"): "4.32 8.40 171.68 73.60"
+*ImageableArea 62x100mm/62mm x 100mm (2.3" x 3.9"): "4.32 8.40 171.68 274.60"
+
+*DefaultPaperDimension: 62mm
+*PaperDimension 12mm/12mm (0.47"): "34 284"
+*PaperDimension 12mm-circular/12mm Circular (0.47"): "34 34"
+*PaperDimension 17x54mm/17mm x 54mm (0.66" x 2.1"): "48 153"
+*PaperDimension 17x87mm/17mm x 87mm (0.66" x 3.4"): "48 246"
+*PaperDimension 23x23mm/23mm x 23mm (0.9"x0.9"): "65 65"
+*PaperDimension 24mm-circular/24mm Circular (0.94"): "68 68"
+*PaperDimension 29mm/29mm (1.1"): "82 284"
+*PaperDimension 29x90mm/29mm x 90mm (1.1" x 3.5"): "82 255"
+*PaperDimension 38mm/38mm (1.4"): "108 284"
+*PaperDimension 38x90mm/38mm x 90mm (1.4" x 3.5"): "108 255"
+*PaperDimension 50mm/50mm (1.9"): "142 284"
+*PaperDimension 54mm/54mm (2.1"): "153 284"
+*PaperDimension 58mm-circular/58mm Circular (2.2", CD/DVD): "165 165"
+*PaperDimension 62mm/62mm (2.4"): "176 284"
+*PaperDimension 62x29mm/62mm x 29mm (2.3" x 1.1"): "176 82"
+*PaperDimension 62x100mm/62mm x 100mm (2.3" x 3.9"): "176 283"
+
+*OpenUI *Resolution/Resolution: PickOne
+*FoomaticRIPOption Resolution: enum CmdLine A
+*OrderDependency: 100 AnySetup *Resolution
+*DefaultResolution: 300dpi
+*Resolution 300dpi/300 dpi: "%% FoomaticRIPOptionSetting: Resolution=300dpi"
+*FoomaticRIPOptionSetting Resolution=300dpi: " -r300x300"
+*Resolution 300x600dpi/300x600 dpi: "%% FoomaticRIPOptionSetting: Resolution=300x600dpi"
+*FoomaticRIPOptionSetting Resolution=300x600dpi: " -r300x600"
+*CloseUI: *Resolution
+
+*OpenUI *PrintQuality/Print Quality: PickOne
+*FoomaticRIPOption PrintQuality: enum CmdLine B
+*OrderDependency: 110 AnySetup *PrintQuality
+*DefaultPrintQuality: High
+*PrintQuality High/High quality: "%% FoomaticRIPOptionSetting: PrintQuality=High"
+*FoomaticRIPOptionSetting PrintQuality=High: " PrintQuality=High "
+*PrintQuality Fast/Fast printing: "%% FoomaticRIPOptionSetting: PrintQuality=Fast"
+*FoomaticRIPOptionSetting PrintQuality=Fast: " PrintQuality=Fast "
+*CloseUI: *PrintQuality
+
+*OpenUI *MirrorPrint/Mirror Print: Boolean
+*FoomaticRIPOption MirrorPrint: bool CmdLine B
+*FoomaticRIPOptionSetting MirrorPrint: " MirrorPrint "
+*OrderDependency: 110 AnySetup *MirrorPrint
+*DefaultMirrorPrint: False
+*MirrorPrint True/MirrorPrint: "%% FoomaticRIPOptionSetting: MirrorPrint=True"
+*MirrorPrint False/Normal: "%% FoomaticRIPOptionSetting: MirrorPrint=False"
+*CloseUI: *MirrorPrint
+
+*OpenUI *PrintDensity/Print Density: PickOne
+*FoomaticRIPOption PrintDensity: enum CmdLine B
+*OrderDependency: 110 AnySetup *PrintDensity
+*DefaultPrintDensity: 0PrinterDefault
+*PrintDensity 0PrinterDefault/Use printer default: "%% FoomaticRIPOptionSetting: PrintDensity=0PrinterDefault"
+*FoomaticRIPOptionSetting PrintDensity=0PrinterDefault: " PrintDensity&&
+=0 "
+*End
+*PrintDensity 1VeryLight/Very light: "%% FoomaticRIPOptionSetting: PrintDensity=1VeryLight"
+*FoomaticRIPOptionSetting PrintDensity=1VeryLight: " PrintDensity=1 "
+*PrintDensity 2Light/Light: "%% FoomaticRIPOptionSetting: PrintDensity=2Light"
+*FoomaticRIPOptionSetting PrintDensity=2Light: " PrintDensity=2 "
+*PrintDensity 3Medium/Medium: "%% FoomaticRIPOptionSetting: PrintDensity=3Medium"
+*FoomaticRIPOptionSetting PrintDensity=3Medium: " PrintDensity=3 "
+*PrintDensity 4Dark/Dark: "%% FoomaticRIPOptionSetting: PrintDensity=4Dark"
+*FoomaticRIPOptionSetting PrintDensity=4Dark: " PrintDensity=4 "
+*PrintDensity 5VeryDark/Very dark: "%% FoomaticRIPOptionSetting: PrintDensity=5VeryDark"
+*FoomaticRIPOptionSetting PrintDensity=5VeryDark: " PrintDensity=5 "
+*CloseUI: *PrintDensity
+
+*CloseGroup: General
+
+*OpenGroup: Finishing/Finishing
+
+*OpenUI *AutoCut/Auto Cut: Boolean
+*FoomaticRIPOption AutoCut: bool CmdLine B
+*FoomaticRIPOptionSetting AutoCut: " AutoCut "
+*OrderDependency: 110 AnySetup *AutoCut
+*DefaultAutoCut: True
+*AutoCut True/AutoCut: "%% FoomaticRIPOptionSetting: AutoCut=True"
+*AutoCut False/ContinuousPrinting: "%% FoomaticRIPOptionSetting: AutoCut=False"
+*CloseUI: *AutoCut
+
+*OpenUI *AutoEject/Auto Eject: Boolean
+*FoomaticRIPOption AutoEject: bool CmdLine B
+*FoomaticRIPOptionSetting AutoEject: " noChainPrinting "
+*OrderDependency: 110 AnySetup *AutoEject
+*DefaultAutoEject: True
+*AutoEject True/AutoEject: "%% FoomaticRIPOptionSetting: AutoEject=True"
+*AutoEject False/ChainPrinting: "%% FoomaticRIPOptionSetting: AutoEject=False"
+*CloseUI: *AutoEject
+
+*OpenUI *CutLabel/Cut every: PickOne
+*FoomaticRIPOption CutLabel: enum CmdLine B
+*OrderDependency: 110 AnySetup *CutLabel
+*DefaultCutLabel: 0
+*CutLabel 0/Off: "%% FoomaticRIPOptionSetting: CutLabel=0"
+*FoomaticRIPOptionSetting CutLabel=0: " CutLabel=0 "
+*CutLabel 1/1 label: "%% FoomaticRIPOptionSetting: CutLabel=1"
+*FoomaticRIPOptionSetting CutLabel=1: " CutLabel=1 "
+*CutLabel 2/2 labels: "%% FoomaticRIPOptionSetting: CutLabel=2"
+*FoomaticRIPOptionSetting CutLabel=2: " CutLabel=2 "
+*CutLabel 3/3 labels: "%% FoomaticRIPOptionSetting: CutLabel=3"
+*FoomaticRIPOptionSetting CutLabel=3: " CutLabel=3 "
+*CutLabel 4/4 labels: "%% FoomaticRIPOptionSetting: CutLabel=4"
+*FoomaticRIPOptionSetting CutLabel=4: " CutLabel=4 "
+*CutLabel 5/5 labels: "%% FoomaticRIPOptionSetting: CutLabel=5"
+*FoomaticRIPOptionSetting CutLabel=5: " CutLabel=5 "
+*CutLabel 6/6 labels: "%% FoomaticRIPOptionSetting: CutLabel=6"
+*FoomaticRIPOptionSetting CutLabel=6: " CutLabel=6 "
+*CutLabel 7/7 labels: "%% FoomaticRIPOptionSetting: CutLabel=7"
+*FoomaticRIPOptionSetting CutLabel=7: " CutLabel=7 "
+*CutLabel 8/8 labels: "%% FoomaticRIPOptionSetting: CutLabel=8"
+*FoomaticRIPOptionSetting CutLabel=8: " CutLabel=8 "
+*CutLabel 9/9 labels: "%% FoomaticRIPOptionSetting: CutLabel=9"
+*FoomaticRIPOptionSetting CutLabel=9: " CutLabel=9 "
+*CutLabel 10/10 labels: "%% FoomaticRIPOptionSetting: CutLabel=10"
+*FoomaticRIPOptionSetting CutLabel=10: " CutLabel=10 "
+*CloseUI: *CutLabel
+
+*OpenUI *ExtraMargin/Extra Margin (ignored for die-cut tape): PickOne
+*FoomaticRIPOption ExtraMargin: enum CmdLine B
+*OrderDependency: 110 AnySetup *ExtraMargin
+*DefaultExtraMargin: 0mm
+*ExtraMargin 0mm/0 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=0mm"
+*FoomaticRIPOptionSetting ExtraMargin=0mm: " Margin=0 "
+*ExtraMargin 1mm/1 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=1mm"
+*FoomaticRIPOptionSetting ExtraMargin=1mm: " Margin=2.83 "
+*ExtraMargin 2mm/2 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=2mm"
+*FoomaticRIPOptionSetting ExtraMargin=2mm: " Margin=5.67 "
+*ExtraMargin 3mm/3 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=3mm"
+*FoomaticRIPOptionSetting ExtraMargin=3mm: " Margin=8.50 "
+*ExtraMargin 4mm/4 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=4mm"
+*FoomaticRIPOptionSetting ExtraMargin=4mm: " Margin=11.34 "
+*ExtraMargin 5mm/5 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=5mm"
+*FoomaticRIPOptionSetting ExtraMargin=5mm: " Margin=14.17 "
+*ExtraMargin 6mm/6 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=6mm"
+*FoomaticRIPOptionSetting ExtraMargin=6mm: " Margin=17.01 "
+*ExtraMargin 7mm/7 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=7mm"
+*FoomaticRIPOptionSetting ExtraMargin=7mm: " Margin=19.84 "
+*ExtraMargin 8mm/8 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=8mm"
+*FoomaticRIPOptionSetting ExtraMargin=8mm: " Margin=22.68 "
+*ExtraMargin 9mm/9 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=9mm"
+*FoomaticRIPOptionSetting ExtraMargin=9mm: " Margin=25.51 "
+*ExtraMargin 10mm/10 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=10mm"
+*FoomaticRIPOptionSetting ExtraMargin=10mm: " Margin=28.35 "
+*ExtraMargin 11mm/11 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=11mm"
+*FoomaticRIPOptionSetting ExtraMargin=11mm: " Margin=31.18 "
+*ExtraMargin 12mm/12 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=12mm"
+*FoomaticRIPOptionSetting ExtraMargin=12mm: " Margin=34.02 "
+*ExtraMargin 13mm/13 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=13mm"
+*FoomaticRIPOptionSetting ExtraMargin=13mm: " Margin=36.85 "
+*ExtraMargin 14mm/14 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=14mm"
+*FoomaticRIPOptionSetting ExtraMargin=14mm: " Margin=39.69 "
+*ExtraMargin 15mm/15 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=15mm"
+*FoomaticRIPOptionSetting ExtraMargin=15mm: " Margin=42.52 "
+*ExtraMargin 16mm/16 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=16mm"
+*FoomaticRIPOptionSetting ExtraMargin=16mm: " Margin=45.35 "
+*ExtraMargin 17mm/17 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=17mm"
+*FoomaticRIPOptionSetting ExtraMargin=17mm: " Margin=48.19 "
+*ExtraMargin 18mm/18 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=18mm"
+*FoomaticRIPOptionSetting ExtraMargin=18mm: " Margin=51.02 "
+*ExtraMargin 19mm/19 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=19mm"
+*FoomaticRIPOptionSetting ExtraMargin=19mm: " Margin=53.86 "
+*ExtraMargin 20mm/20 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=20mm"
+*FoomaticRIPOptionSetting ExtraMargin=20mm: " Margin=56.69 "
+*ExtraMargin 21mm/21 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=21mm"
+*FoomaticRIPOptionSetting ExtraMargin=21mm: " Margin=59.53 "
+*ExtraMargin 22mm/22 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=22mm"
+*FoomaticRIPOptionSetting ExtraMargin=22mm: " Margin=62.36 "
+*ExtraMargin 23mm/23 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=23mm"
+*FoomaticRIPOptionSetting ExtraMargin=23mm: " Margin=65.20 "
+*ExtraMargin 24mm/24 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=24mm"
+*FoomaticRIPOptionSetting ExtraMargin=24mm: " Margin=68.03 "
+*ExtraMargin 25mm/25 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=25mm"
+*FoomaticRIPOptionSetting ExtraMargin=25mm: " Margin=70.87 "
+*ExtraMargin 26mm/26 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=26mm"
+*FoomaticRIPOptionSetting ExtraMargin=26mm: " Margin=73.70 "
+*ExtraMargin 27mm/27 mm: "%% FoomaticRIPOptionSetting: ExtraMargin=27mm"
+*FoomaticRIPOptionSetting ExtraMargin=27mm: " Margin=76.54 "
+*CloseUI: *ExtraMargin
+
+*FoomaticRIPOption MinMargin: enum CmdLine B 110
+*FoomaticRIPOptionSetting MinMargin=8.4pt: " MinMargin=8.4 "
+
+*CloseGroup: Finishing
+
+*OpenGroup: PrinterSpecifics/Printer Specifics
+
+*OpenUI *MediaType/Media Type: PickOne
+*FoomaticRIPOption MediaType: enum CmdLine B
+*OrderDependency: 100 AnySetup *MediaType
+*DefaultMediaType: Tape
+*MediaType Labels/Die-Cut Labels: "%% FoomaticRIPOptionSetting: MediaType=Labels"
+*FoomaticRIPOptionSetting MediaType=Labels: " MediaType=Labels "
+*MediaType Tape/Continuous-Length Tape: "%% FoomaticRIPOptionSetting: MediaType=Tape"
+*FoomaticRIPOptionSetting MediaType=Tape: " MediaType=Tape "
+*CloseUI: *MediaType
+
+*FoomaticRIPOption Align: enum CmdLine B 100
+*FoomaticRIPOptionSetting Align=Right: " Align=Right "
+
+*FoomaticRIPOption BytesPerLine: enum CmdLine B 100
+*FoomaticRIPOptionSetting BytesPerLine=90: " BytesPerLine=90 "
+
+*FoomaticRIPOption PixelTransfer: enum CmdLine B 100
+*FoomaticRIPOptionSetting PixelTransfer=UncompressedLinePrinting: " Pi&&
+xelXfer=ULP "
+*End
+
+*FoomaticRIPOption PrinterSeries: enum CmdLine B 100
+*FoomaticRIPOptionSetting PrinterSeries=QL: " QL "
+
+*FoomaticRIPOption StatusNotification: enum CmdLine B 100
+*FoomaticRIPOptionSetting StatusNotification=DoNotNotify: " StatusNoti&&
+fication=1 "
+*End
+
+*FoomaticRIPOption TransferMode: enum CmdLine B 100
+*FoomaticRIPOptionSetting TransferMode=1: " TransferMode=1 "
+
+*FoomaticRIPOption LabelPreamble: enum CmdLine B 110
+*FoomaticRIPOptionSetting LabelPreamble=LabelPreamble: " LabelPreamble&&
+ "
+*End
+
+*FoomaticRIPOption SoftwareMirror: enum CmdLine B 110
+*FoomaticRIPOptionSetting SoftwareMirror=SoftwareMirror: " SoftwareMir&&
+ror "
+*End
+
+*CloseGroup: PrinterSpecifics
+
+
+*% Generic boilerplate PPD stuff as standard PostScript fonts and so on
+
+*DefaultFont: Courier
+*Font AvantGarde-Book: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-BookOblique: Standard "(001.006S)" Standard ROM
+*Font AvantGarde-Demi: Standard "(001.007S)" Standard ROM
+*Font AvantGarde-DemiOblique: Standard "(001.007S)" Standard ROM
+*Font Bookman-Demi: Standard "(001.004S)" Standard ROM
+*Font Bookman-DemiItalic: Standard "(001.004S)" Standard ROM
+*Font Bookman-Light: Standard "(001.004S)" Standard ROM
+*Font Bookman-LightItalic: Standard "(001.004S)" Standard ROM
+*Font Courier: Standard "(002.004S)" Standard ROM
+*Font Courier-Bold: Standard "(002.004S)" Standard ROM
+*Font Courier-BoldOblique: Standard "(002.004S)" Standard ROM
+*Font Courier-Oblique: Standard "(002.004S)" Standard ROM
+*Font Helvetica: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Narrow-Bold: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-BoldOblique: Standard "(001.007S)" Standard ROM
+*Font Helvetica-Narrow-Oblique: Standard "(001.006S)" Standard ROM
+*Font Helvetica-Oblique: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Bold: Standard "(001.009S)" Standard ROM
+*Font NewCenturySchlbk-BoldItalic: Standard "(001.007S)" Standard ROM
+*Font NewCenturySchlbk-Italic: Standard "(001.006S)" Standard ROM
+*Font NewCenturySchlbk-Roman: Standard "(001.007S)" Standard ROM
+*Font Palatino-Bold: Standard "(001.005S)" Standard ROM
+*Font Palatino-BoldItalic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Italic: Standard "(001.005S)" Standard ROM
+*Font Palatino-Roman: Standard "(001.005S)" Standard ROM
+*Font Symbol: Special "(001.007S)" Special ROM
+*Font Times-Bold: Standard "(001.007S)" Standard ROM
+*Font Times-BoldItalic: Standard "(001.009S)" Standard ROM
+*Font Times-Italic: Standard "(001.007S)" Standard ROM
+*Font Times-Roman: Standard "(001.007S)" Standard ROM
+*Font ZapfChancery-MediumItalic: Standard "(001.007S)" Standard ROM
+*Font ZapfDingbats: Special "(001.004S)" Standard ROM
+
